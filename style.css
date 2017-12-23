@@ -1,5 +1,32 @@
+html,
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #404040;
+    background-color: #eee;
+}
+
 .centered {
     margin: 0 auto;
     color: brown;
+    text-align: center;
+}
+
+.jumbotron {
+    text-align: center;
+    margin: auto;
+}
+
+body {
+    background-color: #eee;
+}
+
+.status-box {
+    font-size: 4em;
+    height: 2em;
+    text-align: center;
+}
+
+.problem h2{
+    font-size: 8em;
     text-align: center;
 }

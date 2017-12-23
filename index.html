@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Arithmetic Game</title>
     <!-- Vue.js newest version -->
     <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
     <!-- bootstrap -->
@@ -12,8 +12,52 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div class="centered" id="app">
-        <p>{{name}}</p>
+    <div id="app">
+        <div class="btn-group" role="group" aria-label="Control">
+            <button id="help-button" type="button" class="btn btn-primary">Help</button>
+            <button id="toggle-plus" type="button" class="btn btn-primary">+</button>
+            <button id="toggle-minus" type="button" class="btn btn-primary">&#8722;</button>
+            <button id="toggle-times" type="button" class="btn btn-primary">x</button>
+            <button id="toggle-divide" type="button" class="btn btn-primary">/</button>
+        </div>
+        <div class="btn-group" role="group" aria-label="Difficulty">
+            <button id="decrease-difficulty" type="button" class="btn btn-primary">Easier</button>
+            <button id="level" type="button" class="btn btn-secondary">Level 5</button>
+            <button id="increase-difficulty" type="button" class="btn btn-primary">Harder</button>
+            <button id="score-counter" type="button" class="btn btn-primary">Score: 0</button>
+        </div>
+        <div class="jumbotron"> <!-- Introduction -->
+            <div v-if = "!game_started">
+                <h1 id="game_title"> Arithmetic Game </h1>
+                <p id="instructions"> Press 'Enter' to Start </p>
+                <button class='btn btn-primary' id="start_button" @click = "start_game" autofocus> Or Press Me! </button>
+            </div>
+            <div v-else>
+                <div class ="problem_and_answer">
+                    <div class="problem">
+                        <h2 id="actual-problem">{{first_num}} {{op}} {{second_num}}</h2>
+                        <h2 id="second_operand"></h2>
+                    </div>
+
+                    <div class="container">
+                        <!--<form> Will submit if press enter!-->
+                        <div class="form-group">
+                            <input type="text" class="form-control status-box" placeholder=""
+                            @input = "check_response($event.target.value)">
+                        </div>
+                        <!--</form>-->
+
+                        <ul class="posts">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <p v-if = "response == '' + answer">
+                correct!
+            </p>
+            <p v-else> Wrong! </p>
+            <p>answer is {{answer}}</p>
+        </div>
     </div>
 </body>
 </html>
@@ -21,7 +65,39 @@
     new Vue({
         el: "#app",
         data: {
-            name: "hello"
+            game_started: false,
+            response: null,
+            answer: 42,
+
+            first_num: null,
+            second_num: null,
+
+            op: null,
+            ops: {0:'+', 1:'-', 2:'*', 3:'/'},
+
+            n_smallest: 1,
+            n_largest: 99,
+        },
+        methods: {
+            start_game(){
+                this.game_started = true;
+
+                // this.$refs.answer_box.focus()
+                this.first_num = this.rand_int(this.n_smallest, this.n_largest);
+                this.second_num = this.rand_int(this.n_smallest, this.n_largest);
+                this.op = this.ops[this.rand_int(0, 3)];
+                this.answer = eval(this.first_num + ' ' + this.op + ' ' + this.second_num);
+            },
+            check_response(v){
+                this.response = v;
+                if (this.response == String(this.answer)){
+                    this.start_game();
+                }
+                 // response = $event.target.value
+            },
+            rand_int(a, b){
+                return Math.floor(Math.random() * (b - a + 1)) + a
+            }
         }
     });
 </script>
