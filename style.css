@@ -5,19 +5,9 @@ body {
     background-color: #eee;
 }
 
-.centered {
-    margin: 0 auto;
-    color: brown;
-    text-align: center;
-}
-
 .jumbotron {
     text-align: center;
     margin: auto;
-}
-
-body {
-    background-color: #eee;
 }
 
 .status-box {

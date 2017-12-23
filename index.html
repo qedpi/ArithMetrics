@@ -3,34 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Arithmetic Game</title>
+
+    <!-- Bootstrap: Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
     <!-- Vue.js newest version -->
     <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
-    <!-- bootstrap -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="app.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="container-fluid">
         <div class="btn-group" role="group" aria-label="Control">
-            <button id="help-button" type="button" class="btn btn-primary">Help</button>
+            <button id="help-button" type="button" class="btn btn-info">Help</button>
             <button id="toggle-plus" type="button" class="btn btn-primary">+</button>
             <button id="toggle-minus" type="button" class="btn btn-primary">&#8722;</button>
             <button id="toggle-times" type="button" class="btn btn-primary">x</button>
             <button id="toggle-divide" type="button" class="btn btn-primary">/</button>
         </div>
-        <div class="btn-group" role="group" aria-label="Difficulty">
+        <div class="btn-group pull-right" role="group" aria-label="Difficulty">
+            <!--
             <button id="decrease-difficulty" type="button" class="btn btn-primary">Easier</button>
             <button id="level" type="button" class="btn btn-secondary">Level 5</button>
             <button id="increase-difficulty" type="button" class="btn btn-primary">Harder</button>
-            <button id="score-counter" type="button" class="btn btn-primary">Score: 0</button>
+            -->
+
+            <button id="score-counter" type="button" class="btn btn-primary">Score: {{score}}</button>
         </div>
         <div class="jumbotron"> <!-- Introduction -->
             <div v-if = "!game_started">
                 <h1 id="game_title"> Arithmetic Game </h1>
-                <p id="instructions"> Press 'Enter' to Start </p>
-                <button class='btn btn-primary' id="start_button" @click = "start_game" autofocus> Or Press Me! </button>
+                <br><br>
+                <button class='btn btn-primary' id="start_button" @click = "start_game" tabindex="1" autofocus> Enter to Start  </button>
             </div>
             <div v-else>
                 <div class ="problem_and_answer">
@@ -39,24 +43,14 @@
                         <h2 id="second_operand"></h2>
                     </div>
 
-                    <div class="container">
-                        <!--<form> Will submit if press enter!-->
-                        <div class="form-group">
-                            <input type="text" class="form-control status-box" placeholder=""
-                            @input = "check_response($event.target.value)">
-                        </div>
-                        <!--</form>-->
-
-                        <ul class="posts">
-                        </ul>
+                    <div class="container form-group">
+                        <input v-model = "response" v-focus type="text" class="form-control status-box">
                     </div>
                 </div>
             </div>
-            <p v-if = "response == '' + answer">
-                correct!
-            </p>
-            <p v-else> Wrong! </p>
+            <p v-hide>{{check_response}}</p>
             <p>answer is {{answer}}</p>
+            <p>{{response_times}}</p>
         </div>
     </div>
 </body>
@@ -66,7 +60,7 @@
         el: "#app",
         data: {
             game_started: false,
-            response: null,
+            response: "",
             answer: 42,
 
             first_num: null,
@@ -77,27 +71,61 @@
 
             n_smallest: 1,
             n_largest: 99,
+
+            start_time: null,
+            response_times: [],
+            score: 0,
         },
         methods: {
             start_game(){
                 this.game_started = true;
-
-                // this.$refs.answer_box.focus()
+                this.new_problem();
+                this.start_time = this.time_format();
+            },
+            new_problem(){
                 this.first_num = this.rand_int(this.n_smallest, this.n_largest);
                 this.second_num = this.rand_int(this.n_smallest, this.n_largest);
-                this.op = this.ops[this.rand_int(0, 3)];
-                this.answer = eval(this.first_num + ' ' + this.op + ' ' + this.second_num);
-            },
-            check_response(v){
-                this.response = v;
-                if (this.response == String(this.answer)){
-                    this.start_game();
+                // gen from 1 to lcm(2, 3, 4) = 12
+                this.op = this.ops[this.rand_int(0, 11) % Object.keys(this.ops).length];
+                if (this.op == '/'){
+                    // special case for division
+                    [this.first_num, this.answer] = [this.first_num * this.second_num, this.first_num]
+                } else {
+                    this.answer = eval(this.first_num + ' ' + this.op + ' ' + this.second_num);
                 }
-                 // response = $event.target.value
+                this.response = "";
             },
             rand_int(a, b){
-                return Math.floor(Math.random() * (b - a + 1)) + a
-            }
+                return Math.floor(Math.random() * (b - a + 1)) + a;
+            },
+            time_format(){
+                return performance.now() / 1000;
+            },
+        },
+        computed: {
+            check_response(){
+                isCorrect = this.response == String(this.answer);
+                if (isCorrect){
+
+                    // Add to times
+                    now = this.time_format();
+                    // after adding, floats become inaccurate again, hence need to use toFixed
+                    this.response_times.push(parseFloat((now - this.start_time).toFixed(2)));
+                    this.start_time = now;
+
+                    this.score ++;
+
+                    this.new_problem();
+                }
+            },
         }
     });
+    // Register a global custom directive called `v-focus`
+    Vue.directive('focus', {
+        // When the bound element is inserted into the DOM...
+        inserted: function (el) {
+            // Focus the element
+            el.focus()
+        }
+    })
 </script>
