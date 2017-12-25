@@ -14,24 +14,41 @@
 </head>
 <body>
     <div id="app" class="container-fluid">
-        <div class="btn-group" role="group" aria-label="Control">
-            <button id="help-button" type="button" class="btn btn-info">Help</button>
-            <button id="toggle-plus" type="button" class="btn btn-primary">+</button>
-            <button id="toggle-minus" type="button" class="btn btn-primary">&#8722;</button>
-            <button id="toggle-times" type="button" class="btn btn-primary">x</button>
-            <button id="toggle-divide" type="button" class="btn btn-primary">/</button>
-        </div>
-        <div class="btn-group pull-right" role="group" aria-label="Difficulty">
-            <!--
-            <button id="decrease-difficulty" type="button" class="btn btn-primary">Easier</button>
-            <button id="level" type="button" class="btn btn-secondary">Level 5</button>
-            <button id="increase-difficulty" type="button" class="btn btn-primary">Harder</button>
-            -->
+        <audio id="audio" src="https://www.soundjay.com/nature/sounds/water-droplet-1.mp3" preload="auto"></audio>
+        <div class="button-groups">
+            <div class="btn-group" role="group" aria-label="Control">
+                <button id="help-button" type="button" class="btn btn-info">Help</button>
+                <button id="toggle-plus" type="button" class="btn btn-primary">+</button>
+                <button id="toggle-minus" type="button" class="btn btn-primary">&#8722;</button>
+                <button id="toggle-times" type="button" class="btn btn-primary">x</button>
+                <button id="toggle-divide" type="button" class="btn btn-primary">/</button>
+                <div class="form-group">
+                    <button id="toggle-divide" type="button" class="btn btn-primary">/</button>
+                    <select v-model="low_selected" class="form-control" id="min-digits">
+                        <option v-for="option in options.slice(0, high_selected)" v-bind:value="option">
+                            {{option}}
+                        </option>
+                    </select>
+                    <select v-model="high_selected" class="form-control" id="max-digits">
+                        <option v-for="option in options.slice(low_selected - 1)" v-bind:value="option">
+                            {{option}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-group pull-right" role="group" aria-label="Difficulty">
 
-            <button id="score-counter" type="button" class="btn btn-primary">Score: {{score}}</button>
+                <!--
+                <button id="decrease-difficulty" type="button" class="btn btn-primary">Easier</button>
+                <button id="level" type="button" class="btn btn-secondary">Level 5</button>
+                <button id="increase-difficulty" type="button" class="btn btn-primary">Harder</button>
+                -->
+
+                <button id="score-counter" type="button" class="btn btn-primary">Score: {{score}}</button>
+            </div>
         </div>
         <div class="jumbotron"> <!-- Introduction -->
-            <div v-if = "!game_started">
+            <div v-if = "!game_started" transition="expand">
                 <h1 id="game_title"> Arithmetic Game </h1>
                 <br><br>
                 <button class='btn btn-primary' id="start_button" @click = "start_game" tabindex="1" autofocus> Enter to Start  </button>
@@ -39,18 +56,19 @@
             <div v-else>
                 <div class ="problem_and_answer">
                     <div class="problem">
-                        <h2 id="actual-problem">{{first_num}} {{op}} {{second_num}}</h2>
+                        <h2 id="actual-problem">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2>
                         <h2 id="second_operand"></h2>
                     </div>
 
                     <div class="container form-group">
-                        <input v-model = "response" v-focus type="text" class="form-control status-box">
+                        <input v-model = "response" v-focus type="text" class="form-control status-box" id="answer">
                     </div>
                 </div>
             </div>
             <p v-hide>{{check_response}}</p>
             <p>answer is {{answer}}</p>
             <p>{{response_times}}</p>
+            <p>digits {{low_selected}} to {{high_selected}}, numbers from {{n_smallest}} to {{n_largest}}</p>
         </div>
     </div>
 </body>
@@ -68,6 +86,7 @@
 
             op: null,
             ops: {0:'+', 1:'-', 2:'*', 3:'/'},
+            op_symbols: {'+':'+', '-':'−', '*':'⋅', '/':'/'},
 
             n_smallest: 1,
             n_largest: 99,
@@ -75,6 +94,10 @@
             start_time: null,
             response_times: [],
             score: 0,
+
+            low_selected: 1,
+            high_selected: 2,
+            options: [1, 2, 3, 4, 5],
         },
         methods: {
             start_game(){
@@ -83,6 +106,9 @@
                 this.start_time = this.time_format();
             },
             new_problem(){
+                this.n_smallest = Math.pow(10, this.low_selected - 1);
+                this.n_largest = Math.pow(10, this.high_selected) - 1;
+
                 this.first_num = this.rand_int(this.n_smallest, this.n_largest);
                 this.second_num = this.rand_int(this.n_smallest, this.n_largest);
                 // gen from 1 to lcm(2, 3, 4) = 12
@@ -114,7 +140,10 @@
                     this.start_time = now;
 
                     this.score ++;
+                    audio.play();
 
+                    this.new_problem();
+                } else if (this.response == 's'){
                     this.new_problem();
                 }
             },

@@ -20,3 +20,15 @@ body {
     font-size: 8em;
     text-align: center;
 }
+
+.button-groups {
+    margin-top: 1em;
+}
+
+#min-digits {
+    background-color: burlywood;
+}
+
+#max-digits {
+    background-color: darkgoldenrod;
+}
