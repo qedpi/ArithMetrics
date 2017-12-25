@@ -6,10 +6,19 @@
 
     <!-- Bootstrap: Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
 
     <!-- Vue.js newest version -->
     <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!-- Local files -->
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="app.js"></script>
 </head>
 <body>
@@ -23,7 +32,7 @@
                 <button id="toggle-times" type="button" class="btn btn-primary">x</button>
                 <button id="toggle-divide" type="button" class="btn btn-primary">/</button>
                 <div class="form-group">
-                    <button id="toggle-divide" type="button" class="btn btn-primary">/</button>
+                    <button id="toggle-divide2" type="button" class="btn btn-primary">/</button>
                     <select v-model="low_selected" class="form-control" id="min-digits">
                         <option v-for="option in options.slice(0, high_selected)" v-bind:value="option">
                             {{option}}
@@ -37,38 +46,33 @@
                 </div>
             </div>
             <div class="btn-group pull-right" role="group" aria-label="Difficulty">
-
-                <!--
-                <button id="decrease-difficulty" type="button" class="btn btn-primary">Easier</button>
-                <button id="level" type="button" class="btn btn-secondary">Level 5</button>
-                <button id="increase-difficulty" type="button" class="btn btn-primary">Harder</button>
-                -->
-
                 <button id="score-counter" type="button" class="btn btn-primary">Score: {{score}}</button>
             </div>
         </div>
         <div class="jumbotron"> <!-- Introduction -->
-            <div v-if = "!game_started" transition="expand">
-                <h1 id="game_title"> Arithmetic Game </h1>
-                <br><br>
-                <button class='btn btn-primary' id="start_button" @click = "start_game" tabindex="1" autofocus> Enter to Start  </button>
-            </div>
-            <div v-else>
-                <div class ="problem_and_answer">
-                    <div class="problem">
-                        <h2 id="actual-problem">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2>
-                        <h2 id="second_operand"></h2>
-                    </div>
+            <transition name="fade">
+                <div v-if = "!game_started">
+                    <h1 id="game_title"> Arithmetic Game </h1>
+                    <br><br>
+                    <button class='btn btn-primary' id="start_button" @click = "start_game" tabindex="1" autofocus> Enter to Start  </button>
+                </div>
+                <div v-else>
+                    <div class ="problem_and_answer">
+                        <div class="problem">
+                            <h2 id="actual-problem">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2>
+                            <h2 id="second_operand"></h2>
+                        </div>
 
-                    <div class="container form-group">
-                        <input v-model = "response" v-focus type="text" class="form-control status-box" id="answer">
+                        <div class="container form-group">
+                            <input v-model = "response" v-focus type="number" class="form-control status-box" id="answer">
+                        </div>
                     </div>
                 </div>
-            </div>
+            </transition>
             <p v-hide>{{check_response}}</p>
             <p>answer is {{answer}}</p>
             <p>{{response_times}}</p>
-            <p>digits {{low_selected}} to {{high_selected}}, numbers from {{n_smallest}} to {{n_largest}}</p>
+            <p>digits from {{low_selected}} to {{high_selected}}, numbers from {{n_smallest}} to {{n_largest}}</p>
         </div>
     </div>
 </body>
@@ -87,6 +91,7 @@
             op: null,
             ops: {0:'+', 1:'-', 2:'*', 3:'/'},
             op_symbols: {'+':'+', '-':'−', '*':'⋅', '/':'/'},
+            ops_used: [true, true, true, true],
 
             n_smallest: 1,
             n_largest: 99,
@@ -127,6 +132,12 @@
             time_format(){
                 return performance.now() / 1000;
             },
+            play_sound_effect(){
+                // makes sure that sound effect plays from start even when it's still playing
+                audio.pause();
+                audio.currentTime = 0;
+                audio.play();
+            },
         },
         computed: {
             check_response(){
@@ -140,7 +151,8 @@
                     this.start_time = now;
 
                     this.score ++;
-                    audio.play();
+
+                    this.play_sound_effect()
 
                     this.new_problem();
                 } else if (this.response == 's'){
