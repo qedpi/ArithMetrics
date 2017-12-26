@@ -32,10 +32,7 @@
         <audio id="audio" src="https://www.soundjay.com/nature/sounds/water-droplet-1.mp3" preload="auto"></audio>
         <div class="button-groups">
             <div class="btn-group" role="group" aria-label="Control">
-                <div class="btn btn-secondary control-op" data-toggle="buttons">Use:
-                     Checkbox 2
-                    <input type="checkbox" id="checkbox" v-model="checked">
-
+                <div class="btn btn-secondary control-op" data-toggle="buttons">Use&nbsp;
                     <button @click="toggle_op(0)" id="toggle-plus" type="button" class="btn btn-primary btn-op">
                         <input type="checkbox">+</button>
                     <button @click="toggle_op(1)" id="toggle-minus" type="button" class="btn btn-primary btn-op">
@@ -78,6 +75,7 @@
                     <div class ="problem_and_answer">
                         <div class="problem">
                             <h2 id="actual-problem">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2>
+                            <br>
                             <h2 id="second_operand"></h2>
                         </div>
 
