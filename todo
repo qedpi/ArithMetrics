@@ -1,5 +1,7 @@
-generate live histrogram of time distributions
-add 'end game' button, displays stats: total time taken, score, average time per answer
-add: applause sound effect for ending game?
-cloak vue syntax until compilation complete
-https://vuejs.org/v2/api/#v-cloak
+-generate live histrogram of time distributions
+-add 'end game' button, displays stats: total time taken, score, average time per answer
+-add: applause sound effect for ending game?
+-cloak vue syntax until compilation complete
+    https://vuejs.org/v2/api/#v-cloak
+-simplify logic for operator selection
+-unmake buttons
