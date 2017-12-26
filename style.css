@@ -37,3 +37,17 @@ html, body {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }
+
+.digit-control {
+    width: 4em;
+    display: inline;
+}
+
+.btn-op {
+    display: inline;
+}
+
+.control-op {
+    background-color: #f9f9f9;
+    margin: 0em 1em 0em 1em;
+}
