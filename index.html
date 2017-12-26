@@ -17,6 +17,12 @@
     <!-- Vue.js newest version -->
     <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
 
+    <!--<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap@next/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>-->
+
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
     <!-- Local files -->
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="app.js"></script>
@@ -32,7 +38,7 @@
                     <button id="toggle-times" type="button" class="btn btn-primary btn-op">x</button>
                     <button id="toggle-divide" type="button" class="btn btn-primary btn-op">/</button>
                 </div>
-                <div class="btn btn-secondary control-op">From
+                <div class="btn btn-secondary control-op">
                     <select v-model="low_selected" class="form-control digit-control" id="min-digits">
                         <option v-for="option in options.slice(0, high_selected)" v-bind:value="option">{{option}}</option>
                     </select> −
@@ -43,7 +49,7 @@
             </div>
             <div class="btn-group pull-right" role="group" aria-label="Difficulty">
                 <button id="score-counter" type="button" class="btn btn-primary">Score: {{score}}</button>
-                <button id="help-button" type="button" class="btn btn-info">Help</button>
+                <!--<button id="help-button" type="button" class="btn btn-info" data-toggle="modal" data-target="#help">Help</button>-->
             </div>
         </div>
         <div class="jumbotron"> <!-- Introduction -->
@@ -61,7 +67,7 @@
                         </div>
 
                         <div class="container form-group">
-                            <input v-model = "response" v-focus type="number" class="form-control status-box" id="answer">
+                            <input v-model = "response" v-focus type="text" class="form-control status-box" id="answer">
                         </div>
                     </div>
                 </div>
@@ -69,14 +75,50 @@
             <!-- need this for computed value -->
             <p v-hide>{{check_response}}</p>
 
-            
+            <div id="instructions">
+                <br>
+                <p>Practice mental arithmetic with this game!</p>
+                <p>The operator and operands will be randomized for each problem,</p>
+                <p>Click on the operator buttons to enable and disable training with them,</p>
+                <p>Adjust difficulty by changing the minimum & maximum amount of digits,</p>
+                <p>Type 's' to skip a problem,</p>
+                <p>Type the answer, and it'll automatically be accepted!</p>
+            </div>
+            <!--
+            <div id="debug">
+                <br><br>
+                <p>Debug Info: answer is {{answer}}</p>
+                <p>{{response_times}}</p>
+                <p>digits from {{low_selected}} to {{high_selected}}, numbers from {{n_smallest}} to {{n_largest}}</p>
+            </div>-->
+        </div>
+    </div>
 
-            <p>Debug Info: answer is {{answer}}</p>
-            <p>{{response_times}}</p>
-            <p>digits from {{low_selected}} to {{high_selected}}, numbers from {{n_smallest}} to {{n_largest}}</p>
+    <!-- Modal -->
+    <div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Help</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Practice mental arithmetic with this game! </p>
+                    <p>The operands and operator will be randomized for each problem.</p>
+                    <p>Press 'Enter' to skip a problem.</p>
+                    <p>Use the buttons to adjust the difficulty.</p>
+                    <p>Click on the operator buttons to enable and disable training with them.</p>
+                    <p>Type in the answer, and it'll automatically be entered. </p>
+                    <p>Enjoy!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
+
 </html>
 <script>
     new Vue({
@@ -154,7 +196,7 @@
 
                     this.score ++;
 
-                    this.play_sound_effect()
+                    this.play_sound_effect();
 
                     this.new_problem();
                 } else if (this.response == 's'){

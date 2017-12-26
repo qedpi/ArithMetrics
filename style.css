@@ -25,10 +25,10 @@ html, body {
 }
 
 #min-digits {
-    background-color: burlywood;
+    background-color: lightblue;
 }
 #max-digits {
-    background-color: darkgoldenrod;
+    background-color: lightblue;
 }
 
 .fade-enter-active, .fade-leave-active {
