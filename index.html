@@ -32,11 +32,18 @@
         <audio id="audio" src="https://www.soundjay.com/nature/sounds/water-droplet-1.mp3" preload="auto"></audio>
         <div class="button-groups">
             <div class="btn-group" role="group" aria-label="Control">
-                <div class="btn btn-secondary control-op">Use:
-                    <button id="toggle-plus" type="button" class="btn btn-primary btn-op">+</button>
-                    <button id="toggle-minus" type="button" class="btn btn-primary btn-op">&#8722;</button>
-                    <button id="toggle-times" type="button" class="btn btn-primary btn-op">x</button>
-                    <button id="toggle-divide" type="button" class="btn btn-primary btn-op">/</button>
+                <div class="btn btn-secondary control-op" data-toggle="buttons">Use:
+                     Checkbox 2
+                    <input type="checkbox" id="checkbox" v-model="checked">
+
+                    <button @click="toggle_op(0)" id="toggle-plus" type="button" class="btn btn-primary btn-op">
+                        <input type="checkbox">+</button>
+                    <button @click="toggle_op(1)" id="toggle-minus" type="button" class="btn btn-primary btn-op">
+                        <input type="checkbox">&#8722;</button>
+                    <button @click="toggle_op(2)" id="toggle-times" type="button" class="btn btn-primary btn-op">
+                        <input type="checkbox">x</button>
+                    <button @click="toggle_op(3)" id="toggle-divide" type="button" class="btn btn-primary btn-op">
+                        <input type="checkbox">/</button>
                 </div>
                 <div class="btn btn-secondary control-op">
                     <select v-model="low_selected" class="form-control digit-control" id="min-digits">
@@ -83,13 +90,14 @@
             <!-- need this for computed value -->
             <p v-hide>{{check_response}}</p>
 
-            <!--
+
             <div id="debug">
                 <br><br>
                 <p>Debug Info: answer is {{answer}}</p>
                 <p>{{response_times}}</p>
                 <p>digits from {{low_selected}} to {{high_selected}}, numbers from {{n_smallest}} to {{n_largest}}</p>
-            </div>-->
+                <p>{{ops_used}}</p>
+            </div>
         </div>
     </div>
 </body>
@@ -110,6 +118,7 @@
             ops: {0:'+', 1:'-', 2:'*', 3:'/'},
             op_symbols: {'+':'+', '-':'−', '*':'⋅', '/':'/'},
             ops_used: [true, true, true, true],
+            active_ops: [0, 1, 2, 3],
 
             n_smallest: 1,
             n_largest: 99,
@@ -121,6 +130,8 @@
             low_selected: 1,
             high_selected: 2,
             options: [1, 2, 3, 4, 5],
+
+            checked: true,
 
         },
         methods: {
@@ -136,7 +147,8 @@
                 this.first_num = this.rand_int(this.n_smallest, this.n_largest);
                 this.second_num = this.rand_int(this.n_smallest, this.n_largest);
                 // gen from 1 to lcm(2, 3, 4) = 12
-                this.op = this.ops[this.rand_int(0, 11) % Object.keys(this.ops).length];
+
+                this.op = this.ops[this.active_ops[this.rand_int(0, 11) % Object.keys(this.active_ops).length]];
                 if (this.op == '/'){
                     // special case for division
                     [this.first_num, this.answer] = [this.first_num * this.second_num, this.first_num]
@@ -156,6 +168,10 @@
                 audio.pause();
                 audio.currentTime = 0;
                 audio.play();
+            },
+            toggle_op(op_id){
+                this.ops_used[op_id] = !this.ops_used[op_id];
+                this.active_ops = Object.keys(this.ops).filter(x => this.ops_used[x]);
             },
         },
         computed: {
