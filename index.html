@@ -74,8 +74,7 @@
                 <div v-else>
                     <div class ="problem_and_answer">
                         <div class="problem">
-                            <h2 id="actual-problem">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2>
-                            <br>
+                            <h2 id="actual-problem">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2><br>
                             <h2 id="second_operand"></h2>
                         </div>
 
@@ -117,6 +116,7 @@
             op_symbols: {'+':'+', '-':'−', '*':'⋅', '/':'/'},
             ops_used: [true, true, true, true],
             active_ops: [0, 1, 2, 3],
+            button_names: {0:'toggle-plus', 1:'toggle-minus', 2:'toggle-times', 3:'toggle-divide'},
 
             n_smallest: 1,
             n_largest: 99,
@@ -146,6 +146,10 @@
                 this.second_num = this.rand_int(this.n_smallest, this.n_largest);
                 // gen from 1 to lcm(2, 3, 4) = 12
 
+                /*
+                if (!this.ops_used.includes(true)){
+                    location.reload();
+                } */
                 this.op = this.ops[this.active_ops[this.rand_int(0, 11) % Object.keys(this.active_ops).length]];
                 if (this.op == '/'){
                     // special case for division
@@ -169,6 +173,11 @@
             },
             toggle_op(op_id){
                 this.ops_used[op_id] = !this.ops_used[op_id];
+                if (!this.ops_used.includes(true)){
+                    alert("must use at least one operator!");
+                    //todo: vue.js may have better way
+                    document.getElementById(this.button_names[op_id]).click();
+                }
                 this.active_ops = Object.keys(this.ops).filter(x => this.ops_used[x]);
             },
         },
