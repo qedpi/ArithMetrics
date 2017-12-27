@@ -13,6 +13,7 @@
 
 # Playing the Game
 ![Screenshot](screenshots/gameplay.jpg)
-+ Type the answer, and it'll automatically be accepted, with a bubble-popping sound effect!
++ Correct answers will automatically be accepted, 
++ Plays a bubble-popping sound effect!
 + Type 's' to skip a problem.
 + Score ( problems solved ) shown on top-right. 
