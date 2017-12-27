@@ -1,9 +1,8 @@
-# Arithmetic-Game
-Daily Arithmetic Practice (Vue.js)  
-(prototype: https://qedpi.github.io/Arithmetic-Game-Vue.js/)
-
-# Practice mental arithmetic with this game!
+# Arithmetic Game
 ![Screenshot](screenshots/start.jpg)
++ Practice mental arithmetic
++ built with Vue.js  
++ play at: https://qedpi.github.io/Arithmetic-Game-Vue.js/ or http://qedpi.com/game
 
 # Customize Operators & Number of Digits
 ![Screenshot](screenshots/customize.jpg)
