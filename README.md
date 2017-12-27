@@ -1,4 +1,4 @@
-# Arithmetic Game
+# ArithMetrics
 ![Screenshot](screenshots/start.jpg)
 + Practice mental arithmetic,
 + Built with Vue.js,
