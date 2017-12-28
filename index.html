@@ -87,7 +87,7 @@
                 </div>
             </transition>
             <!-- need this for computed value -->
-            <p v-cloak v-hide>{{check_response}}</p>
+            <p v-cloak>{{check_response}}</p>
 
 
             <!--
@@ -173,10 +173,6 @@
                 aud.pause();
                 aud.currentTime = 0;
                 aud.play();
-                /*
-                audio.pause();
-                audio.currentTime = 0;
-                audio.play(); */
             },
             toggle_op(op_id){
                 this.play_sound_effect("audio_buttons");
