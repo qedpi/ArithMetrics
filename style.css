@@ -24,9 +24,11 @@ html, body {
 
 #min-digits {
     background-color: lightblue;
+    width: 5em;
 }
 #max-digits {
     background-color: lightblue;
+    width: 5em;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -49,4 +51,8 @@ html, body {
     background-color: #f9f9f9;
     margin: 0em 1em 0em 1em;
     font-size: 2em;
+}
+
+[v-cloak] {
+    display: none;
 }
