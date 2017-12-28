@@ -2,7 +2,7 @@
 ![Screenshot](screenshots/start.jpg)
 + Practice mental arithmetic,
 + Built with Vue.js,
-+ Play at: https://qedpi.github.io/Arithmetic-Game-Vue.js/ or http://qedpi.com/game
++ Play at: https://qedpi.github.io/ArithMetrics/ or http://qedpi.com/game
 
 # Customize Operators & Number of Digits
 ![Screenshot](screenshots/customize.jpg)
