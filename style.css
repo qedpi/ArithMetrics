@@ -40,7 +40,9 @@ html, body {
 
 .digit-control {
     width: 4em;
+    height: 3em;
     display: inline;
+    font-weight: bolder;
 }
 
 .btn-op {
