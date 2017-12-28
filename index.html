@@ -30,7 +30,8 @@
 </head>
 <body>
     <div id="app" class="container-fluid">
-        <audio id="audio" src="https://www.soundjay.com/nature/sounds/water-droplet-1.mp3" preload="auto"></audio>
+        <audio id="audio_success" src="https://www.soundjay.com/nature/sounds/water-droplet-1.mp3" preload="auto"></audio>
+        <audio id="audio_buttons" src="https://www.soundjay.com/nature/sounds/flame-1.mp3" preload="auto"></audio>
         <div class="button-groups">
             <div class="btn-group" role="group" aria-label="Control">
                 <div class="btn btn-secondary btn-lg control-op" data-toggle="buttons">Use&nbsp;
@@ -132,7 +133,6 @@
             options: [1, 2, 3, 4, 5],
 
             checked: true,
-
         },
         methods: {
             start_game(){
@@ -167,13 +167,19 @@
             time_format(){
                 return performance.now() / 1000;
             },
-            play_sound_effect(){
+            play_sound_effect(id){
                 // makes sure that sound effect plays from start even when it's still playing
+                aud = document.getElementById(id);
+                aud.pause();
+                aud.currentTime = 0;
+                aud.play();
+                /*
                 audio.pause();
                 audio.currentTime = 0;
-                audio.play();
+                audio.play(); */
             },
             toggle_op(op_id){
+                this.play_sound_effect("audio_buttons");
                 this.ops_used[op_id] = !this.ops_used[op_id];
                 if (!this.ops_used.includes(true)){
                     alert("must use at least one operator!");
@@ -196,7 +202,7 @@
 
                     this.score ++;
 
-                    this.play_sound_effect();
+                    this.play_sound_effect('audio_success');
 
                     this.new_problem();
                 } else if (this.response == 's'){
