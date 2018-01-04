@@ -205,6 +205,14 @@
                     this.new_problem();
                 }
             },
+        },
+        mounted(){
+            window.addEventListener('keyup', e => {
+                // Enter key to start game
+                if (e.keyCode == 13 && !this.game_started){
+                    this.start_game();
+                }
+            });
         }
     });
     // Register a global custom directive called `v-focus`
