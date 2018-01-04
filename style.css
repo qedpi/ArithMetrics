@@ -18,8 +18,8 @@
 }
 
 #min-digits, #max-digits {
-    background-color: lightblue;
-    width: 5em;
+    width: 4em;
+    border: none;
 }
 
 .digit-control {
@@ -41,4 +41,10 @@
 
 #answer {
     color: white;
+}
+
+#target-score {
+    color: white;
+    width: 3em;
+    border: none;
 }
