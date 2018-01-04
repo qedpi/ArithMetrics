@@ -44,7 +44,7 @@
                         <option v-for="option in options.slice(low_selected - 1)" v-bind:value="option">{{option}}</option>
                     </select> digits
                 </div>
-            <div class="btn-group" id="score-group" role="group" aria-label="Difficulty" v-cloak>
+            <div class="btn-group float-right" id="score-group" role="group" aria-label="Difficulty" v-cloak>
                 <button id="score-counter" type="button" class="btn btn-success btn-lg">Score: {{score}} /
                     <input v-model="target_score" type="number" class="bg-success" id="target-score">
                 </button>
