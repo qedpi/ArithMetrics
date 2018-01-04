@@ -1,16 +1,10 @@
-.jumbotron {
-    text-align: center;
-}
-
-.status-box {
+#answer {
     font-size: 4em;
     height: 2em;
-    text-align: center;
 }
 
 .problem h2{
     font-size: 8em;
-    text-align: center;
 }
 
 .button-groups {

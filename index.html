@@ -51,7 +51,7 @@
                 <!--<button id="help-button" type="button" class="btn btn-info" data-toggle="modal" data-target="#help">Help</button>-->
             </div>
         </div>
-        <div class="jumbotron bg-success text-white"> <!-- Introduction -->
+        <div class="jumbotron bg-success text-white text-center"> <!-- Introduction -->
             <transition name="fade">
                 <div v-if = "!game_started">
                     <h1 id="game_title" class="display-2"> Arithmetic Game </h1>
@@ -71,10 +71,10 @@
                 <div v-else v-cloak>
                     <div class ="problem_and_answer">
                         <div class="problem">
-                            <h2 id="actual-problem">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2><br>
+                            <h2 id="actual-problem" class="display-1">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2><br>
                         </div>
                         <div class="container form-group">
-                            <input v-model = "response" v-focus type="text" class="form-control status-box bg-success" id="answer">
+                            <input v-model = "response" v-focus type="text" class="form-control bg-success text-center display-1" id="answer">
                         </div>
                     </div>
                 </div>
