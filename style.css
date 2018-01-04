@@ -1,10 +1,5 @@
-html, body {
-    background-color: #eee;
-}
-
 .jumbotron {
     text-align: center;
-    margin: auto;
 }
 
 .status-box {
@@ -22,25 +17,12 @@ html, body {
     margin-top: 1em;
 }
 
-#min-digits {
+#min-digits, #max-digits {
     background-color: lightblue;
     width: 5em;
-}
-#max-digits {
-    background-color: lightblue;
-    width: 5em;
-}
-
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
 }
 
 .digit-control {
-    width: 4em;
-    height: 3em;
     display: inline;
     font-weight: bolder;
 }
@@ -50,11 +32,13 @@ html, body {
 }
 
 .control-op {
-    background-color: #f9f9f9;
-    margin: 0em 1em 0em 1em;
     font-size: 2em;
 }
 
 [v-cloak] {
     display: none;
+}
+
+#answer {
+    color: white;
 }
