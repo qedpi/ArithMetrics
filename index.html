@@ -58,13 +58,15 @@
                     <br><br>
                     <div id="instructions">
                         <p>Practice mental arithmetic with this game!</p>
-                        <p>The operator and operands will be randomized for each problem,</p>
-                        <p>Click on the operator buttons to enable and disable training with them,</p>
-                        <p>Adjust difficulty by changing the minimum & maximum amount of digits,</p>
-                        <p>Type 's' to skip a problem,</p>
-                        <p>Type the answer, and it'll automatically be accepted!</p>
+                        <p>The operator and operands will be randomized for each problem</p>
+                        <p>Click on the operator buttons to enable and disable training with them</p>
+                        <p>Adjust difficulty by changing the minimum & maximum amount of digits</p>
+                        <p>Click on the Score to change the target score</p>
+                        <p>Type 's' to skip a problem</p>
+                        <p>Type the answer, and it'll automatically be accepted.</p>
                     </div>
-                    <button class='btn btn-info btn-lg' id="start_button" @click = "start_game" tabindex="1" autofocus> Start  </button>
+                    <br>
+                    <button class='btn btn-info btn-lg' id="start_button" @click = "start_game" tabindex="1" autofocus>Enter</button>
                 </div>
                 <div v-else v-cloak>
                     <div class ="problem_and_answer">
