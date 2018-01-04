@@ -29,6 +29,7 @@
 <div id="app" class="container-fluid bg-success">
     <audio id="audio_success" src="https://www.soundjay.com/nature/sounds/water-droplet-1.mp3" preload="auto"></audio>
     <audio id="audio_buttons" src="https://www.soundjay.com/nature/sounds/flame-1.mp3" preload="auto"></audio>
+    <audio id="audio_applause" src="https://www.soundjay.com/human/sounds/applause-4.mp3" preload="auto"></audio>
     <div class="button-groups">
             <div class="btn btn-success btn-lg control-op" data-toggle="buttons">Use&nbsp;
                 <button @click="toggle_op(0)" id="toggle-plus" type="button" class="btn btn-info btn-op btn-lg">+</button>
@@ -198,11 +199,12 @@
 
                     this.score ++;
 
-                    this.play_sound_effect('audio_success');
                     if (this.score >= this.target_score){
+                        this.play_sound_effect("audio_applause");
                         alert("Congrats, you've completed your daily practice!");
                         this.game_started = false;
                     } else {
+                        this.play_sound_effect("audio_success");
                         this.new_problem();
                     }
                 } else if (this.response === 's'){
