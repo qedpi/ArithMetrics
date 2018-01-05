@@ -4,3 +4,8 @@
 -simplify logic for operator selection
 -unmake buttons
 -decide on name: ArithMetrics?
+-dynamic difficulty: depends on response times
+-use vue-bootstarp slider: http://seiyria.com/bootstrap-slider/
+-add chat
+-tug of war game: stronger players have bigger icons, can join sides: left & right
+-auto balance feature: teams of similar strengths
