@@ -32,10 +32,10 @@
     <audio id="audio_applause" src="https://www.soundjay.com/human/sounds/applause-4.mp3" preload="auto"></audio>
     <div class="button-groups">
             <div class="btn btn-success btn-lg control-op" data-toggle="buttons">Use&nbsp;
-                <button @click="toggle_op(0)" id="toggle-plus" type="button" class="btn btn-info btn-op btn-lg">+</button>
-                <button @click="toggle_op(1)" id="toggle-minus" type="button" class="btn btn-info btn-op btn-lg">&#8722;</button>
-                <button @click="toggle_op(2)" id="toggle-times" type="button" class="btn btn-info btn-op btn-lg">x</button>
-                <button @click="toggle_op(3)" id="toggle-divide" type="button" class="btn btn-info btn-op btn-lg">/</button>
+                <button @click="toggle_op(0)" @dblclick="toggle_op(-1)" id="toggle-plus" type="button" class="btn btn-info btn-op btn-lg">+</button>
+                <button @click="toggle_op(1)" @dblclick="toggle_op(-2)" id="toggle-minus" type="button" class="btn btn-info btn-op btn-lg">&#8722;</button>
+                <button @click="toggle_op(2)" @dblclick="toggle_op(-3)" id="toggle-times" type="button" class="btn btn-info btn-op btn-lg">x</button>
+                <button @click="toggle_op(3)" @dblclick="toggle_op(-4)" id="toggle-divide" type="button" class="btn btn-info btn-op btn-lg">/</button>
             </div>
             <div class="btn btn-success btn-lg control-op" v-cloak>
                 <select v-model="low_selected" class="form-control digit-control text-white" id="min-digits">
