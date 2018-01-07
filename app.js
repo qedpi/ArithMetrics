@@ -37,7 +37,7 @@ new Vue({
         op_symbols: {'+':'+', '-':'−', '*':'⋅', '/':'/'},
         ops_used: [true, true, true, true],
         active_ops: [0, 1, 2, 3],
-        button_names: {0:'toggle-plus', 1:'toggle-minus', 2:'toggle-times', 3:'toggle-divide'},
+        button_names: ['toggle-plus', 'toggle-minus', 'toggle-times', 'toggle-divide'],
 
         n_smallest: 1,
         n_largest: 99,
@@ -100,11 +100,11 @@ new Vue({
     computed: {
         check_response(){
             isCorrect = this.response === String(this.answer);
-            if (isCorrect){
+            now = time_format_seconds();
 
+            if (isCorrect){
                 // Add to times
-                now = time_format_seconds();
-                // after adding, floats become inaccurate again, hence need to use toFixed
+                // after adding, floats become inaccurate again, so use toFixed
                 this.response_times.push(parseFloat((now - this.start_time).toFixed(2)));
                 this.start_time = now;
 
@@ -118,7 +118,8 @@ new Vue({
                     play_sound_effect("audio_success");
                     this.new_problem();
                 }
-            } else if (this.response === 's'){
+            } else if (this.response === 's'){ // user skips question
+                this.start_time = now;
                 this.new_problem();
             }
         },
