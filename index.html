@@ -5,14 +5,15 @@
     <title>Arithmetic Game</title>
 
     <!-- Bootstrap: Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
     <!-- Bootstrap Slider
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>-->
 
     <!-- Vue.js newest version -->
-    <script src ="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <!--<script src="vue.js"></script>-->
 
     <!--<link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap@next/dist/css/bootstrap.min.css"/>
@@ -20,6 +21,10 @@
 
     <!--<script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>-->
+
+    <!-- Vue Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap@next/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
 
     <!-- Local files -->
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -31,20 +36,28 @@
     <audio id="audio_buttons" src="https://www.soundjay.com/nature/sounds/flame-1.mp3" preload="auto"></audio>
     <audio id="audio_applause" src="https://www.soundjay.com/human/sounds/applause-4.mp3" preload="auto"></audio>
     <div class="button-groups">
-            <div class="btn btn-success btn-lg control-op" data-toggle="buttons">Use&nbsp;
-                <button @click="toggle_op(0)" @dblclick="toggle_op(-1)" id="toggle-plus" type="button" class="btn btn-info btn-op btn-lg">+</button>
-                <button @click="toggle_op(1)" @dblclick="toggle_op(-2)" id="toggle-minus" type="button" class="btn btn-info btn-op btn-lg">&#8722;</button>
-                <button @click="toggle_op(2)" @dblclick="toggle_op(-3)" id="toggle-times" type="button" class="btn btn-info btn-op btn-lg">x</button>
-                <button @click="toggle_op(3)" @dblclick="toggle_op(-4)" id="toggle-divide" type="button" class="btn btn-info btn-op btn-lg">/</button>
-            </div>
-            <div class="btn btn-success btn-lg control-op" v-cloak>
-                <select v-model="low_selected" class="form-control digit-control text-white" id="min-digits">
-                    <option v-for="option in options.slice(0, high_selected)" v-bind:value="option">{{option}}</option>
-                </select> −
-                <select v-model="high_selected" class="form-control digit-control text-white" id="max-digits">
-                    <option v-for="option in options.slice(low_selected - 1)" v-bind:value="option">{{option}}</option>
-                </select> digits
-            </div>
+        <div class="btn btn-success btn-lg control-op" data-toggle="buttons">Use&nbsp;
+            <button @click="toggle_op(0)" @dblclick="toggle_op(-1)" id="toggle-plus" type="button"
+                    class="btn btn-info btn-op btn-lg">+
+            </button>
+            <button @click="toggle_op(1)" @dblclick="toggle_op(-2)" id="toggle-minus" type="button"
+                    class="btn btn-info btn-op btn-lg">&#8722;
+            </button>
+            <button @click="toggle_op(2)" @dblclick="toggle_op(-3)" id="toggle-times" type="button"
+                    class="btn btn-info btn-op btn-lg">x
+            </button>
+            <button @click="toggle_op(3)" @dblclick="toggle_op(-4)" id="toggle-divide" type="button"
+                    class="btn btn-info btn-op btn-lg">/
+            </button>
+        </div>
+        <div class="btn btn-success btn-lg control-op" v-cloak>
+            <select v-model="low_selected" class="form-control digit-control text-white" id="min-digits">
+                <option v-for="option in options.slice(0, high_selected)" v-bind:value="option">{{option}}</option>
+            </select> −
+            <select v-model="high_selected" class="form-control digit-control text-white" id="max-digits">
+                <option v-for="option in options.slice(low_selected - 1)" v-bind:value="option">{{option}}</option>
+            </select> digits
+        </div>
         <div class="btn-group float-right" id="score-group" role="group" aria-label="Difficulty" v-cloak>
             <button id="score-counter" type="button" class="btn btn-success btn-lg">Score: {{score}} /
                 <input v-model="target_score" type="number" id="target-score">
@@ -53,34 +66,34 @@
         </div>
     </div>
     <div class="jumbotron text-white text-center"> <!-- Introduction -->
-        <transition name="fade">
-            <div v-if = "!game_started">
-                <h1 id="game_title" class="display-2"> Arithmetic Game </h1>
-                <br><br>
-                <div id="instructions">
-                    <p class="lead">Practice mental arithmetic with this game! <br>
-                        The operator and operands will be randomized for each problem <br>
-                        Click on the operator buttons to enable and disable training with them <br>
-                        Doubleclick to only enable one <br>
-                        Adjust difficulty by changing the minimum & maximum amount of digits <br>
-                        Click on the Score to change the target score <br>
-                        Type 's' to skip a problem <br>
-                        Type the answer, and it'll automatically be accepted.</p>
-                </div>
-                <br>
-                <button class='btn btn-info btn-lg' id="start_button" @click = "start_game" tabindex="1" autofocus>Enter</button>
+        <div v-if="!game_started">
+            <h1 id="game_title" class="display-2"> Arithmetic Game </h1>
+            <br><br>
+            <div id="instructions">
+                <p class="lead">Practice mental arithmetic with this game! <br>
+                    The operator and operands will be randomized for each problem <br>
+                    Click on the operator buttons to enable and disable training with them <br>
+                    Doubleclick to only enable one <br>
+                    Adjust difficulty by changing the minimum & maximum amount of digits <br>
+                    Click on the Score to change the target score <br>
+                    Type 's' to skip a problem <br>
+                    Type the answer, and it'll automatically be accepted.</p>
             </div>
-            <div v-else v-cloak>
-                <div class ="problem_and_answer">
-                    <div class="problem">
-                        <h2 id="actual-problem" class="display-1">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2><br>
-                    </div>
-                    <div class="container form-group">
-                        <input v-model = "response" v-focus type="text" class="form-control text-center display-1" id="answer">
-                    </div>
+            <br>
+            <button class='btn btn-info btn-lg' id="start_button" @click="start_game" tabindex="1" autofocus>Enter
+            </button>
+        </div>
+        <div v-else v-cloak>
+            <div class="problem_and_answer">
+                <div class="problem">
+                    <h2 id="actual-problem" class="display-1">{{first_num}} {{op_symbols[op]}} {{second_num}}</h2><br>
+                </div>
+                <div class="container form-group">
+                    <input v-model="response" v-focus type="text" class="form-control text-center display-1"
+                           id="answer">
                 </div>
             </div>
-        </transition>
+        </div>
         <!-- need this for computed value -->
         <p v-cloak>{{check_response}}</p>
 
@@ -96,11 +109,20 @@
 </div>
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+        integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+        crossorigin="anonymous"></script>
 
 <script src="app.js"></script>
+<!-- Vue Bootstrap -->
+<script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 </body>
 </html>
 
