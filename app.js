@@ -112,7 +112,7 @@ new Vue({
 
                 if (this.score >= this.target_score){
                     play_sound_effect("audio_applause");
-                    alert("Congrats, you've completed your daily practice!");
+                        // alert("Congrats, you've completed your daily practice!");
                     this.game_started = false;
                 } else {
                     play_sound_effect("audio_success");
